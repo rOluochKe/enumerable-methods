@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+#!/usr/bin/ruby
 
 module Enumerable
     #each
@@ -13,11 +13,11 @@ module Enumerable
     #each_with_index
     def my_each_with_index
         i = 0
-        x = 0
-        while i < self.length
-            yield(self[i], x)
+        while i < self.count
+            yield(self[i],i)
             i += 1
         end
+
     end
 
     #select
@@ -50,8 +50,8 @@ module Enumerable
     #count
     def my_count
         total = 0
-        self.my_each {|i| if (yield(i)) then total += 1 end}
-        return total
+        self.my_each{total += 1}
+        total
     end
 
     #map 
@@ -67,11 +67,11 @@ module Enumerable
         self.my_each {|i| m = yield(m, i)}
         m
     end
+end
 
-    #multiply_els
-    def multiply_els(arr)
-        arr.my_inject {|x,y| x*y}
-    end
+#multiply_els
+def multiply_els(arr)
+    arr.my_inject {|x,y| x*y}
 end
 
 array = [2,4,5]
