@@ -1,9 +1,7 @@
-#==========METHODS=============
+# frozen_string_literal: true
 
 module Enumerable
-    
-#========my_each method======== 
-    
+    # my_each method
     def my_each
         i = 0
         self.size.times do
@@ -12,20 +10,18 @@ module Enumerable
         end
     self
     end
-    
-#========my_each_with_index method========   
-    
+        
+    # my_each_with_index 
     def my_each_with_index
         i = 0
-          self.size.times do
+            self.size.times do
             yield(self[i], i)
             i += 1
         end 
     self
     end
-    
-#========my_select method========     
-    
+        
+    # my_select  
     def my_select
         arr = []
         self.my_each do |x|
@@ -36,8 +32,7 @@ module Enumerable
         arr
     end
     
-#========my_all? method========     
-    
+    # my_all?     
     def my_all?
         arr = []
         resul=true
@@ -54,8 +49,7 @@ module Enumerable
         resul
     end
     
-#========my_any? method========     
-    
+    # my_any?    
     def my_any?
         res = false
         self.my_each do |x|
@@ -67,8 +61,7 @@ module Enumerable
         res
     end
 
-#========my_none? method========
-    
+    # my_none?  
     def my_none?
       res = true
         self.my_each do |x|
@@ -80,8 +73,7 @@ module Enumerable
         res  
     end
     
-#========my_count method========     
-    
+    # my_count  
     def my_count value = nil
         count = 0
         self.my_each do|elem|
@@ -98,8 +90,7 @@ module Enumerable
         count
     end
     
-#========my_map method======== 
-    
+    # my_map
     def my_map
         arr = []
         self.my_each do |x| 
@@ -108,8 +99,7 @@ module Enumerable
         arr
     end
 
-#========my_map_2 method(TAKES A PROC)========
-    
+    # my_map_2 (TAKES A PROC)
     def my_map_2(my_proc)
         arr = []
         self.my_each do |x|
@@ -118,8 +108,7 @@ module Enumerable
         arr
     end
     
-#========my_map_3 method(TAKES EITHER A PROC OR A BLOCK)========     
-    
+    # my_map_3 (TAKES EITHER A PROC OR A BLOCK)
     def my_map_3 my_proc = nil
         arr = []
         self.my_each do |x|
@@ -132,8 +121,7 @@ module Enumerable
         arr
     end
 
-#========my_inject method======== 
-    
+    # my_inject
     def my_inject index=0
         count = index
         self.my_each do|now|
@@ -141,7 +129,6 @@ module Enumerable
         end
         count
     end
-
 end
 
 
@@ -150,49 +137,42 @@ end
 #==================================================================================
 
 
-#=======MY EACH METHOD TEST========
+#=========== MY EACH METHOD TEST ======================
 #   array=[6,4,8,14,56,12,4,5,8]
 #   array.my_each do |num|
 #        num *= 2
 #        print "#{num} " 
 #   end
-#==================================
 
 
-#====== MY EACH WITH INDEX METHOD TEST ====================
+#========== MY EACH WITH INDEX METHOD TEST ============
 #    array=[6,4,8,14,56,12,4,5,8]
 #    array.my_each_with_index do |value, index|
 #        puts "Array index #{index} has the value #{value}"
 #    end
-#==========================================================
 
 
 #============== MY SELECT METHOD TEST =================
 #    array=[6,2,7,14,9,12,4,5,8]
 #    result = array.my_select do |n| n % 2 != 0 end
 #    p result
-#======================================================
 
 
 #============== MY ALL METHOD TEST ====================
 #    array=[6,2,4,14,6,12,4,3,8]
 #    res=array.my_all? do |n| n % 2 == 0 end
 #    print res
-#======================================================
 
 
 #============= MY ANY METHOD TEST =====================
 #    array=[6,4,8,14,56,12,1,4]
 #    res = array.my_any? do |n | n < 3 end
 #    print res
-#======================================================
 
 
 #============= MY NONE METHOD TEST ====================
 #    array=[6,4,8,14,56,12,4,1]
 #    res = array.my_none? do |n | n % 2 == 1 end
-#    print res
-#======================================================
 
 
 #============= MY COUNT METHOD TEST ===================
@@ -201,14 +181,12 @@ end
 #   #res = array.my_count (8)
 #   res = array.my_count() do|n| n % 2 == 1  end
 #   p res
-#======================================================
 
 
 #============== MY MAP METHOD TEST ==================
 #    array=[6,4,8,14,56,12,4,5,8]
 #    res = array.my_map do |n| n * 2 end
 #    p res
-#====================================================
 
 
 #============== MY MAP 2 METHOD (TAKES A PROC) ==========
@@ -216,7 +194,6 @@ end
 #   my_proc = Proc.new do |n| n * 2 end
 #   res = array.my_map_2(my_proc)
 #   p res
-#========================================================
 
 
 #============== MY MAP 3 METHOD (TAKES EITHER A PROC OR A BLOCK)=================
@@ -225,7 +202,6 @@ end
 #   res = array.my_map_3 do |n| n * 3 end
 #   res = array.my_map_3(my_proc)
 #   p res
-#=================================================================================
 
 
 #=============== MY INJECT TEST =====================
@@ -234,4 +210,3 @@ end
 #   end
 #   array=[3,2,2,5]
 #   puts multiply_els(array)
-#====================================================
