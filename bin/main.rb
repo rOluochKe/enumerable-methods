@@ -2,107 +2,106 @@
 # frozen_string_literal: true
 
 module Enumerable
-  # my_each method
   def my_each
-    counter = 0
-    while counter < size
-      yield(self[counter])
-      counter += 1
+    i = 0
+    length = self.length
+    while i < length
+      yield(self[i])
+      i += 1
     end
   end
-            
-  # my_each_with_index 
+
   def my_each_with_index
     i = 0
-    while i < size
+    length = self.length
+    while i < length
       yield(self[i], i)
       i += 1
     end
   end
-            
-  # my_select  
-  def my_select
-    output = []
-    my_each { |ele| output << ele if yield(ele) }
-    output
-  end
-        
-  # my_all?     
-  def my_all?
-    all_passed = true
-    self.my_each do |i|
-      if !yield(i)
-        all_passed = false
-        break
-      end
-    end
-    all_passed
-  end
-        
-  # my_any?    
-  def my_any?
-    any = false
-    self.my_each do |i|
-      if yield(i)
-        any = true
-        break
-      end
-    end
-    any
+
+  def my_select(&block)
+    arr = []
+    my_each { |e| arr.push(e) if block.call(e) }
+    arr
   end
 
-  # my_none?  
-  def my_none?
-    none = true
-    self.my_each do |i|
-      if yield(i)
-        none = false
-        break
-      end
+  def my_all?(&block)
+    result = true
+    if block
+      my_each { |e| result = false unless yield(e) }
+    else
+      my_each { |e| result = false unless e }
     end
-    none
+    result
   end
-        
-  # my_count  
-  def my_count(num = nil)
-    count = 0
-    if !num && !block_given?
-      count = self.length
-    elsif num
-      for i in self
-        if i == num
-          count += 1
-        end
+
+  def my_any?(&block)
+    result = false
+    if block
+      my_each { |e| result = true if yield(e) }
+    else
+      my_each { |e| result = true if e }
+    end
+    result
+  end
+
+  def my_none?(&block)
+    result = true
+    if block
+      my_each { |e| result = false if yield(e) }
+    else
+      my_each { |e| result = false if e }
+    end
+    result
+  end
+
+  def my_count(val = nil, &block)
+    result = 0
+    if block && !val
+      my_each { |e| result += 1 if yield(e) }
+    elsif !val
+      my_each { result += 1 }
+    else
+      my_each { |e| result += 1 if val == e }
+    end
+    result
+  end
+
+  def my_map(proc = nil, &block)
+    arr = []
+    if proc
+      my_each { |e| arr.push(proc.call(e)) }
+    else
+      my_each { |e| arr.push(block.call(e)) }
+    end
+    arr
+  end
+
+  def my_inject(val = nil, &block)
+    if instance_of? Range
+      last = self.last
+      first = self.first
+      result = val
+      i = first
+      while i <= last
+        result = block.call(result, i) unless i == first
+        i += 1
       end
     else
-      for i in self
-        if yield(i)
-          count += 1
-        end
+      i = 1
+      result = self[0]
+      result = block.call(result, val) if val
+      while i < length
+        result = block.call(result, self[i])
+        i += 1
       end
     end
-    count
-  end
-  end
-        
-  # my_map
-  def my_map(&procs)
-    output = []
-    my_each { |ele| output << (procs.nil? ? yield(ele) : procs.call(ele)) }
-    output
-  end
-
-  # my_inject
-  def my_inject(memo = nil, sym = nil)
-    return my_inject(nil, memo) if memo.is_a? Symbol
-    return my_inject(memo) { |mem, e| :+.to_proc.call(mem, e) } unless sym.nil?
-
-    my_each { |e| memo = memo.nil? ? first : yield(memo, e) }
-    memo
+    result
   end
 end
 
-# Test my_inject method
+# test function for inject
 def multiply_els(arr)
-  arr.my_inject { |memo, item| memo * item }
+  p arr.my_inject(1) { |product, v| product * v }
 end
