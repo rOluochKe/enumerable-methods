@@ -1,2 +1,13 @@
 # enumerable-methods
-Building #enumerable module
+Building with #enumerable methods
+
+# Technologies
+### Ruby
+
+# Author
+### rOluochKe (https://github.com/rOluochKe)
+
+# License
+MIT Licensed
+
+
